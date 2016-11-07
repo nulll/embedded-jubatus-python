@@ -1,4 +1,5 @@
 import os.path
+import platform
 
 from Cython.Build import cythonize
 from setuptools import Extension
@@ -23,6 +24,9 @@ old_defs = open(defs_path, 'r').read() if os.path.isfile(defs_path) else ''
 if defs != old_defs:
     with open('src/defs.pyx', 'w') as f:
         f.write(defs)
+
+if platform.system() == 'Darwin':
+    os.environ['CFLAGS'] = '-std=c++11'
 
 setup(
     name='embedded_jubatus',
